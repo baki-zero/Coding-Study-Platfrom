@@ -19,12 +19,19 @@ const sockets = [];
 
 wss.on("connection", (backSocket) => {
     sockets.push(backSocket);
-    console.log("Connected to Browser ?");
+    backSocket["nickname"] = "Anon";        //처음 접속시 닉네임을 익명으로 설정
+    console.log("Connected to Browser");
     backSocket.on("close", () => 
-        console.log("Disconnected from the Browser ?")
+        console.log("Disconnected from the Browser")
     );
-    backSocket.on("message", (message) => {
-        sockets.forEach((aSocket) => aSocket.send(message.toString()))    //aSocket은 각각의 브라우저를 표시하고 메시지를 보낸다는 뜻
+    backSocket.on("message", (msg) => {
+        const message = JSON.parse(msg);                //Json.parse는 string을 Javascript object로 변환
+        switch(message.type) {
+            case "new_message" :
+                sockets.forEach((aSocket) => aSocket.send(`${backSocket.nickname}: ${message.payload}`));    //aSocket은 각각의 브라우저를 표시하고 메시지를 보낸다는 뜻
+            case "nickname" :
+                backSocket["nickname"] = message.payload;
+        }
     });
 });
 
