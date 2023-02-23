@@ -11,15 +11,16 @@ app.use("/public", express.static(__dirname + "/public"));
 app.get("/", (req, res) => res.render("home"));
 app.get("/*", (req, res) => res.redirect("/"));
 
-const handleListen = () => console.log(`Listening on http://localhost:3000`);
-
 const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
-wsServer.on("connection", (socket) => {     //socket.io를 back-end 설치? 실행?
+wsServer.on("connection", (socket) => {
+    socket.onAny((event) => {
+        console.log(`Socket Event: ${event}`);
+    });
     socket.on("enter_room", (roomName, done) => {
-        console.log(roomName);
-        done("hello from the backend");
+        socket.join(roomName);      //roomName에 해당하는 room으로 들어감
+        done();
     });
 });
 
@@ -44,6 +45,7 @@ wss.on("connection", (backSocket) => {
                 backSocket["nickname"] = message.payload;
         }
     });
-});*/
+}); */
 
+const handleListen = () => console.log(`Listening on http://localhost:3000`);
 httpServer.listen(3000, handleListen);
