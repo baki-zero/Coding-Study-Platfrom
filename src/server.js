@@ -15,13 +15,18 @@ const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
 wsServer.on("connection", (socket) => {
-    socket.onAny((event) => {
+    socket.onAny((event) => {                   //onAny는 middleware 느낌, 어느 event에서든지 console.log 가능
         console.log(`Socket Event: ${event}`);
     });
     socket.on("enter_room", (roomName, done) => {
         socket.join(roomName);      //roomName에 해당하는 room으로 들어감
-        done();
+        done();     //FE에 showRoom 함수를 실행시킴
+        socket.to(roomName).emit("welcome");    //roomName에 해당하는 user들에게 메시지 전달
     });
+    socket.on("disconnecting", () => {
+        //클라이언트가 서버와 연결이 끊어지기 전에 message 전송 가능
+        socket.rooms.forEach(room => socket.to(room).emit("Bye"));
+    })
 });
 
 /*
