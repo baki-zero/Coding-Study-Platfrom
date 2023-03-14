@@ -19,7 +19,8 @@ wsServer.on("connection", (socket) => {
     socket.onAny((event) => {                   //onAny는 middleware 느낌, 어느 event에서든지 console.log 가능
         console.log(`Socket Event: ${event}`);
     });
-    socket.on("enter_room", (roomName, done) => {
+    socket.on("enter_room", (roomName, nickname, done) => {
+        socket["nickname"] = nickname;
         socket.join(roomName);      //roomName에 해당하는 room으로 들어감
         done();                     //FE에 showRoom 함수를 실행시킴
         socket.to(roomName).emit("welcome", socket.nickname);    //roomName에 해당하는 user들에게 메시지 전달

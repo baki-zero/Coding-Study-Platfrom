@@ -1,7 +1,7 @@
 const socket = io();   //socket.io를 이용해 front-end에서 back-end로 연결
 
 const welcome = document.getElementById("welcome");
-const form = welcome.querySelector("form");
+const enterForm = welcome.querySelector("form");
 const room = document.getElementById("room");
 
 room.hidden = true;
@@ -44,14 +44,17 @@ function showRoom() {
 
 function handleRoomSubmit(event) {
     event.preventDefault();
-    const input = form.querySelector("input");
+    const roomNameInput = enterForm.querySelector("#roomName");
+    const nickNameInput = enterForm.querySelector("#name");
     //emit(event 이름, 보내고 싶은 payload, 마지막은 서버에서 호출하는 function)
-    socket.emit("enter_room", input.value, showRoom);
-    roomName = input.value;
-    input.value = "";
+    socket.emit("enter_room", roomNameInput.value, nickNameInput.value, showRoom);
+    roomName = roomNameInput.value;
+    roomNameInput.value = "";
+    const changeNameInput = room.querySelector("#name input");
+    changeNameInput.value = nickNameInput.value;
 }
 
-form.addEventListener("submit", handleRoomSubmit);
+enterForm.addEventListener("submit", handleRoomSubmit);
 
 socket.on("welcome", (user) => {
     addMessage(`${user} joined:)`);
