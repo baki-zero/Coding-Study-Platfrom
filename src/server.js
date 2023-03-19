@@ -29,22 +29,26 @@ function publicRooms() {                    //public room을 찾고 반환하는 함수
     return publicRooms;
 }
 
+function countRoom(roomName) {
+    return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 wsServer.on("connection", (socket) => {
     socket["nickname"] = "Anon";
     socket.onAny((event) => {                   //onAny는 middleware 느낌, 어느 event에서든지 console.log 가능
-        //console.log(wsServer.sockets.adapter);
-        //console.log(`Socket Event: ${event}`);
+        console.log(wsServer.sockets.adapter);
+        console.log(`Socket Event: ${event}`);
     });
     socket.on("enter_room", (roomName, nickname, done) => {
         socket["nickname"] = nickname;
         socket.join(roomName);      //roomName에 해당하는 room으로 들어감
         done();                     //FE에 showRoom 함수를 실행시킴
-        socket.to(roomName).emit("welcome", socket.nickname);    //roomName에 해당하는 user들에게 메시지 전달
+        socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName));    //roomName에 해당하는 user들에게 메시지 전달
         wsServer.sockets.emit("room_change", publicRooms());    //모든 socket에 message 전송
     });
     socket.on("disconnecting", () => {
         //클라이언트가 서버와 연결이 끊어지기 전에 message 전송 가능
-        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+        socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname, countRoom(room)-1));
     });
     socket.on("disconnect", () => {
         wsServer.sockets.emit("room_change", publicRooms());
