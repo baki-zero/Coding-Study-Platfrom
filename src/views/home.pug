@@ -10,22 +10,9 @@ html(lang="en")
         header
             h1 Noom
         main
-            div#welcome
-                form
-                    input#roomName(placeholder="room name", required, type="text")
-                    input#name(placeholder="Nickname", required, type="text")
-                    button Enter Room
-                h4 Open Rooms:
-                ul
-            div#room
-                h3
-                ul
-                form#name
-                    input(placeholder="nickname", required, type="text")
-                    button Change
-                form#msg
-                    input(placeholder="message", required, type="text")
-                    button Send
-
+            div#myStream
+                video#myFace(autoplay, playsinline, width="400", height="400")    //playsinline은 모바일 브라우저가 필요로 하는 property
+                button#mute Mute
+                button#camera Turn Camera Off
         script(src="/socket.io/socket.io.js")
         script(src="/public/js/app.js")
