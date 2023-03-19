@@ -14,21 +14,42 @@ app.get("/*", (req, res) => res.redirect("/"));
 const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
+function publicRooms() {                    //public room을 찾고 반환하는 함수
+    const {
+        sockets: {
+            adapter: {sids, rooms},         //wsServer.sockets.adapter로부터 sids와 rooms를 가져옴.
+        },
+    } = wsServer;
+    const publicRooms = [];
+    rooms.forEach((_, key) => {
+        if(sids.get(key) === undefined) {
+            publicRooms.push(key);
+        }
+    });
+    return publicRooms;
+}
+
 wsServer.on("connection", (socket) => {
     socket["nickname"] = "Anon";
     socket.onAny((event) => {                   //onAny는 middleware 느낌, 어느 event에서든지 console.log 가능
-        console.log(`Socket Event: ${event}`);
+        //console.log(wsServer.sockets.adapter);
+        //console.log(`Socket Event: ${event}`);
     });
     socket.on("enter_room", (roomName, nickname, done) => {
         socket["nickname"] = nickname;
         socket.join(roomName);      //roomName에 해당하는 room으로 들어감
         done();                     //FE에 showRoom 함수를 실행시킴
         socket.to(roomName).emit("welcome", socket.nickname);    //roomName에 해당하는 user들에게 메시지 전달
+        wsServer.sockets.emit("room_change", publicRooms());    //모든 socket에 message 전송
     });
     socket.on("disconnecting", () => {
         //클라이언트가 서버와 연결이 끊어지기 전에 message 전송 가능
         socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
     });
+    socket.on("disconnect", () => {
+        wsServer.sockets.emit("room_change", publicRooms());
+    })
+
     socket.on("new_message", (msg, room, done) => {
         socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`);
         done();
