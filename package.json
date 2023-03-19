@@ -10,11 +10,12 @@
   "devDependencies": {
     "@babel/cli": "^7.20.7",
     "@babel/core": "^7.20.12",
-    "@babel/node": "^18.12.0",         
+    "@babel/node": "^7.20.7",
     "@babel/preset-env": "^7.20.2",
     "nodemon": "^2.0.20"
   },
   "dependencies": {
+    "@socket.io/admin-ui": "^0.5.1",
     "express": "^4.18.2",
     "pug": "^3.0.2",
     "socket.io": "^4.6.1",
