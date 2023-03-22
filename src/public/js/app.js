@@ -91,17 +91,18 @@ cameraSelect.addEventListener("input", handleCameraChange);
 const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
 
-async function startMedia() {
+async function initCall() {
     welcome.hidden = true;
     call.hidden = false;
     await getMedia();
     makeConnection();
 }
 
-function handleWelcomeSubmit(event) {
+async function handleWelcomeSubmit(event) {
     event.preventDefault();
     const input = welcomeForm.querySelector("input");
-    socket.emit("join_room", input.value, startMedia);
+    await initCall();
+    socket.emit("join_room", input.value);
     roomName = input.value;
     input.value = "";
 };
@@ -116,12 +117,19 @@ socket.on("welcome", async () => {      //peer A 브라우저에서 실행 -> offer 생성
     socket.emit("offer", offer, roomName);          //peer B로 offer 전송
 });
 
-socket.on("offer", (offer => {  //peer B가 offer을 받아서
-    //myPeerConnection.setRemoteDescription(offer);   //remoteDescription 설정
-}));
+socket.on("offer", async(offer) => {  //peer B가 offer을 받아서
+    myPeerConnection.setRemoteDescription(offer);   //remoteDescription 설정
+    const answer = await myPeerConnection.createAnswer();   //peer B가 answer 생성 후 
+    myPeerConnection.setLocalDescription(answer);    //localDescription 함
+    socket.emit("answer", answer, roomName);    //answer을 받으면 모든 사람에게 알려야하므로 roomName도 전달
+});
+
+socket.on("answer", async (answer) => {
+    myPeerConnection.setRemoteDescription(answer);
+});
 
 //RTC Code
-function makeConnection() {
+function makeConnection() { //addStream과 같은 함수, track들을 개별적으로 추가해줌
     myPeerConnection = new RTCPeerConnection();   //p2p 연결 생성
     //각각의 브라우저에서 카메라와 마이크의 데이터 stream을 받아서 그것들을 연결 안에 넣음
     myStream
