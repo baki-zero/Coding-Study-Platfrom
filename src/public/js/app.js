@@ -53,10 +53,12 @@ async function getMedia(deviceId) { //카메라, 마이크 ,다른 카메라, stream들을 다
     } catch (e) {
         console.log(e);
     }
-};
+}
 
 function handleMuteClick() {
-    myStream.getAudioTracks().forEach((track) => (track.enabled = !track.enabled));
+    myStream
+        .getAudioTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
     if(!muted) {
         muteBtn.innerText = "Unmute";
         muted = true;
@@ -64,27 +66,27 @@ function handleMuteClick() {
         muteBtn.innerText = "Mute";
         muted = false;
     }
-};
+}
 
 function handleCameraClick() {
-    myStream.getVideoTracks().forEach((track) => (track.enabled = !track.enabled));
+    myStream
+        .getVideoTracks()
+        .forEach((track) => (track.enabled = !track.enabled));
     if(cameraOff) {
         cameraBtn.innerText = "Turn Camera Off";
         cameraOff = false;
-    }else {
+    } else {
         cameraBtn.innerText = "Turn Camera On";
         cameraOff = true;
     }
-};
+}
 
-async function handleCameraChange() {
+async function handleCameraChange() {   //
     await getMedia(cameraSelect.value);
 }
 
-
 muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
-
 cameraSelect.addEventListener("input", handleCameraChange);
 
 // Welcome Form (join a room)
@@ -105,7 +107,7 @@ async function handleWelcomeSubmit(event) {
     socket.emit("join_room", input.value);
     roomName = input.value;
     input.value = "";
-};
+}
 
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 
@@ -117,22 +119,44 @@ socket.on("welcome", async () => {      //peer A 브라우저에서 실행 -> offer 생성
     socket.emit("offer", offer, roomName);          //peer B로 offer 전송
 });
 
-socket.on("offer", async(offer) => {  //peer B가 offer을 받아서
+socket.on("offer", async (offer) => {                //peer B가 offer을 받아서
+    console.log("received the offer");
     myPeerConnection.setRemoteDescription(offer);   //remoteDescription 설정
     const answer = await myPeerConnection.createAnswer();   //peer B가 answer 생성 후 
     myPeerConnection.setLocalDescription(answer);    //localDescription 함
-    socket.emit("answer", answer, roomName);    //answer을 받으면 모든 사람에게 알려야하므로 roomName도 전달
+    console.log("sent the answer");
+    socket.emit("answer", answer, roomName);        //answer을 받으면 모든 사람에게 알려야하므로 roomName도 전달
 });
 
-socket.on("answer", async (answer) => {
+socket.on("answer", (answer) => {
+    console.log("received the answer");
     myPeerConnection.setRemoteDescription(answer);
+});
+
+socket.on("ice", (ice) => {
+    console.log("received candidate");
+    myPeerConnection.addIceCandidate(ice);
 });
 
 //RTC Code
 function makeConnection() { //addStream과 같은 함수, track들을 개별적으로 추가해줌
-    myPeerConnection = new RTCPeerConnection();   //p2p 연결 생성
+    myPeerConnection = new RTCPeerConnection();
+    myPeerConnection.addEventListener("icecandidate", handleIce);   //candidate는 브라우저가 자신의 소통방식을 알려주는 것
+    myPeerConnection.addEventListener("addstream", handleAddStream);
     //각각의 브라우저에서 카메라와 마이크의 데이터 stream을 받아서 그것들을 연결 안에 넣음
     myStream
-    .getTracks()
-    .forEach((track) => myPeerConnection.addTrack(track, myStream));   
-};
+        .getTracks()
+        .forEach((track) => myPeerConnection.addTrack(track, myStream));   
+}
+
+function handleIce(data) {
+    console.log("sent candidate");
+    socket.emit("ice", data.candidate, roomName);   //peer A, B가 candidate들을 서로 주고 받는다는 뜻
+}
+
+function handleAddStream(data) {
+    const peerFace = document.getElementById("peerFace");
+    peerFace.srcObject = data.stream;
+    console.log(myStream, "my stream");
+    console.log(data.stream, "peer stream");
+}
