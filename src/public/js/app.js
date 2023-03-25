@@ -81,8 +81,15 @@ function handleCameraClick() {
     }
 }
 
-async function handleCameraChange() {   //
+async function handleCameraChange() {   //카메라 교체시
     await getMedia(cameraSelect.value);
+    if(myPeerConnection) {
+        const videoTrack = myStream.getVideoTracks()[0];
+        const videoSender = myPeerConnection
+            .getSenders()       //sender는 우리의 peer로 보내진 media stream track을 컨트롤하게 해줌.
+            .find((sender) => sender.track.kind === "video");   //sender은 다른 브라우저로 보내진 비디오와 오디오 데이터를 컨트롤하는 방법
+        videoSender.replaceTrack(videoTrack);
+    }
 }
 
 muteBtn.addEventListener("click", handleMuteClick);
@@ -140,9 +147,22 @@ socket.on("ice", (ice) => {
 
 //RTC Code
 function makeConnection() { //addStream과 같은 함수, track들을 개별적으로 추가해줌
-    myPeerConnection = new RTCPeerConnection();
+    myPeerConnection = new RTCPeerConnection({
+        iceServers: [
+            {
+                urls: [
+                    "stun:stun.l.google.com:19302",
+                    "stun:stun1.l.google.com:19302",
+                    "stun:stun2.l.google.com:19302",
+                    "stun:stun3.l.google.com:19302",
+                    "stun:stun4.l.google.com:19302",
+                ],
+            },
+        ],
+    });
     myPeerConnection.addEventListener("icecandidate", handleIce);   //candidate는 브라우저가 자신의 소통방식을 알려주는 것
     myPeerConnection.addEventListener("addstream", handleAddStream);
+    //myPeerConnection.addEventListener("track", handleTrack);
     //각각의 브라우저에서 카메라와 마이크의 데이터 stream을 받아서 그것들을 연결 안에 넣음
     myStream
         .getTracks()
@@ -160,3 +180,13 @@ function handleAddStream(data) {
     console.log(myStream, "my stream");
     console.log(data.stream, "peer stream");
 }
+
+/*function handleTrack(data) {
+    const peerFace = document.getElementById("peerFace");
+    peerFace.srcObject = data.streams[0];
+    console.log(myStream, "my stream");
+    console.log(data.stream, "peer stream");
+}*/
+   
+
+    
