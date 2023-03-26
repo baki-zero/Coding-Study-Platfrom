@@ -161,8 +161,8 @@ function makeConnection() { //addStream과 같은 함수, track들을 개별적으로 추가해
         ],
     });
     myPeerConnection.addEventListener("icecandidate", handleIce);   //candidate는 브라우저가 자신의 소통방식을 알려주는 것
-    myPeerConnection.addEventListener("addstream", handleAddStream);
-    //myPeerConnection.addEventListener("track", handleTrack);
+    //myPeerConnection.addEventListener("addstream", handleAddStream);
+    myPeerConnection.addEventListener("track", handleTrack);
     //각각의 브라우저에서 카메라와 마이크의 데이터 stream을 받아서 그것들을 연결 안에 넣음
     myStream
         .getTracks()
@@ -181,12 +181,12 @@ function handleAddStream(data) {
     console.log(data.stream, "peer stream");
 }
 
-/*function handleTrack(data) {
+function handleTrack(data) {
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = data.streams[0];
     console.log(myStream, "my stream");
-    console.log(data.stream, "peer stream");
-}*/
+    console.log(data.streams[0], "peer stream");
+}
    
 
     
