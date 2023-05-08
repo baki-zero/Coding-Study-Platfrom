@@ -4,25 +4,38 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Zoom Clone
+        title MNU Study Room
         link(rel="stylesheet", href="https://unpkg.com/mvp.css")
     body 
         header
-            h1 Mnu Study
+            h1 MNU Study
         main
             div#welcome
                 form
                     input(placeholder="room name", required, type="text")
                     Button Enter Room
+                    Button(type="reset") Cancel
             div#call
                 div#myStream
-                    video#myFace(autoplay, playsinline, width="400", height="400")    //playsinline은 모바일 브라우저가 필요로 하는 property
-                    button#mute Mute
-                    button#camera Turn Camera Off
-                    select#cameras
-                        //option(value="device") Face Camera
-                    
-                    video#peerFace(autoplay, playsinline, control, width="400", height="400")
-                    
+                    fieldset#options(style="display:none")
+                        legend Advanced options
+                        select#displaySurface
+                            option(value="default") Show default sharing options
+                            option(value="browser") Prefer to share a browser tab
+                            option(value="window") Prefer to share a window
+                            option(value="monitor") Prefer to share an entire screen
+                    div#errorMsg
+                    p Display the screensharing stream from <code>getDisplayMedia()</code> in a video element.
+                    fieldset#myScreen(style="display:none")
+                        legend My Screen Box
+                        video#myFace(autoplay, playsinline, width="300", height="300")
+                        button#startButton(disabled) Start
+                        button#mute Mute
+                        button#camera Turn Camera Off            
+                    fieldset#peerScreen(style="display:none")
+                        legend Peer Screen Box
+                        video#peerFace(autoplay, playsinline, control, width="200", height="200")
+
         script(src="/socket.io/socket.io.js")
+        script(src="https://webrtc.github.io/adapter/adapter-latest.js")
         script(src="/public/js/app.js")

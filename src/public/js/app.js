@@ -3,8 +3,10 @@ const socket = io();   //socket.io를 이용해 front-end에서 back-end로 연결
 const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
 const cameraBtn = document.getElementById("camera");
-const cameraSelect = document.getElementById("cameras");
+const cameraSelect = document.getElementById("displaySurface");
 const call = document.getElementById("call");
+const startButton = document.getElementById("startButton");
+const options = document.getElementById("options");
 
 call.hidden = true;
 
@@ -14,6 +16,18 @@ let cameraOff = false;      //처음에 카메라 on
 let roomName;               //방이름
 let myPeerConnection;       
 
+if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.version >= 107) {
+    // See https://developer.chrome.com/docs/web-platform/screen-sharing-controls/
+    options.style.display = "block";
+} else if (adapter.browserDetails.browser === 'firefox') {
+    // Polyfill in Firefox.
+    // See https://blog.mozilla.org/webrtc/getdisplaymedia-now-available-in-adapter-js/
+    adapter.browserShim.shimGetDisplayMedia(window, 'screen');
+}
+
+
+
+// 카메라 정보 가져오기
 async function getCameras() {
     try {
         const devices = await navigator.mediaDevices.enumerateDevices();                //사용 가능한 미디어 입출력 장치 목록 요청
@@ -194,6 +208,47 @@ function handleTrack(data) {
     console.log(myStream, "my stream");
     console.log(data.streams[0], "peer stream");
 }
-   
 
-    
+
+
+function handleSuccess(myStream) {
+    startButton.disabled = true;
+    cameraSelect.disabled = true;
+    myFace.srcObject = myStream;
+  
+    // demonstrates how to detect that the user has stopped
+    // sharing the screen via the browser UI.
+    stream.getVideoTracks()[0].addEventListener('ended', () => {
+      errorMsg('The user has ended sharing the screen');
+      startButton.disabled = false;
+      cameraSelect.disabled = false;
+    });
+}
+
+function handleError(error) {
+    errorMsg(`getDisplayMedia error: ${error.name}`, error);
+}
+
+function errorMsg(msg, error) {
+    const errorElement = document.querySelector('#errorMsg');
+    errorElement.innerHTML += `<p>${msg}</p>`;
+    if (typeof error !== 'undefined') {
+      console.error(error);
+    }
+}
+
+startButton.addEventListener("click", () => {
+    const options = {audio: true, video: true};
+    const displaySurface = cameraSelect.options[cameraSelect.selectedIndex].value;
+    if (displaySurface !== 'default') {
+      options.video = {displaySurface};
+    }
+    navigator.mediaDevices.getDisplayMedia(options)
+        .then(handleSuccess, handleError);
+});
+
+if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
+    startButton.disabled = false;
+} else {
+    errorMsg('getDisplayMedia is not supported');
+}
