@@ -7,6 +7,8 @@ const cameraSelect = document.getElementById("displaySurface");
 const call = document.getElementById("call");
 const startButton = document.getElementById("startButton");
 const options = document.getElementById("options");
+const myScreen = document.getElementById("myScreen");
+const peerScreen = document.getElementById("peerScreen");
 
 call.hidden = true;
 
@@ -48,6 +50,7 @@ async function getCameras() {
 }
 
 async function getMedia(deviceId) { //카메라, 마이크 ,다른 카메라, stream들을 다 불러옴
+    myScreen.style.display = "block";
     const initialConstrains = {     //deviceId가 없을 때(cameras 만들기 전) 실행(오디오 설정, 셀카모드(카메라가 없는 경우에는 출력x))
         audio: true,
         video: {facingMode: "user"},
@@ -203,6 +206,7 @@ function handleAddStream(data) {
 }
 
 function handleTrack(data) {
+    peerScreen.style.display = "block";
     const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = data.streams[0];
     console.log(myStream, "my stream");
@@ -211,10 +215,10 @@ function handleTrack(data) {
 
 
 
-function handleSuccess(myStream) {
+function handleSuccess(stream) {
     startButton.disabled = true;
     cameraSelect.disabled = true;
-    myFace.srcObject = myStream;
+    myFace.srcObject = stream;
   
     // demonstrates how to detect that the user has stopped
     // sharing the screen via the browser UI.
@@ -250,5 +254,6 @@ startButton.addEventListener("click", () => {
 if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
     startButton.disabled = false;
 } else {
+
     errorMsg('getDisplayMedia is not supported');
 }
