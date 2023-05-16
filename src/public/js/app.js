@@ -6,11 +6,15 @@ const cameraBtn = document.getElementById("camera");
 const cameraSelect = document.getElementById("displaySurface");
 const call = document.getElementById("call");
 const startButton = document.getElementById("startButton");
-const options = document.getElementById("options");
+const selectOptions = document.getElementById("selectOptions");
 const myScreen = document.getElementById("myScreen");
 const peerScreen = document.getElementById("peerScreen");
+const peerScreen2 = document.getElementById("peerScreen2");
+const peerScreen3 = document.getElementById("peerScreen3");
+const chatContainer = document.getElementById("chat-container");
 
 call.hidden = true;
+chatContainer.hidden = true;
 
 let myStream;               //stream은 비디오와 오디오가 결합된 것
 let muted = false;          //처음에 소리 x
@@ -20,14 +24,12 @@ let myPeerConnection;
 
 if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.version >= 107) {
     // See https://developer.chrome.com/docs/web-platform/screen-sharing-controls/
-    options.style.display = "block";
+    selectOptions.style.display = "block";
 } else if (adapter.browserDetails.browser === 'firefox') {
     // Polyfill in Firefox.
     // See https://blog.mozilla.org/webrtc/getdisplaymedia-now-available-in-adapter-js/
     adapter.browserShim.shimGetDisplayMedia(window, 'screen');
 }
-
-
 
 // 카메라 정보 가져오기
 async function getCameras() {
@@ -214,18 +216,24 @@ function handleTrack(data) {
 }
 
 
-
+let screenVideoTrack;
 function handleSuccess(stream) {
     startButton.disabled = true;
     cameraSelect.disabled = true;
     myFace.srcObject = stream;
-  
-    // demonstrates how to detect that the user has stopped
-    // sharing the screen via the browser UI.
-    stream.getVideoTracks()[0].addEventListener('ended', () => {
+
+    screenVideoTrack = myStream.getVideoTracks()[0];
+    screenVideoTrack.addEventListener('ended', () => {
       errorMsg('The user has ended sharing the screen');
       startButton.disabled = false;
       cameraSelect.disabled = false;
+    });
+
+    myPeerConnection.addTrack(screenVideoTrack, myStream);
+    myPeerConnection.createOffer()
+    .then((offer) => myPeerConnection.setLocalDescription(offer))
+    .catch((error) => {
+        errorMsg('Failed to create and send offer:', error);
     });
 }
 
@@ -242,10 +250,10 @@ function errorMsg(msg, error) {
 }
 
 startButton.addEventListener("click", () => {
-    const options = {audio: true, video: true};
+    const options = { video: true };
     const displaySurface = cameraSelect.options[cameraSelect.selectedIndex].value;
     if (displaySurface !== 'default') {
-      options.video = {displaySurface};
+        options.video = {displaySurface};
     }
     navigator.mediaDevices.getDisplayMedia(options)
         .then(handleSuccess, handleError);

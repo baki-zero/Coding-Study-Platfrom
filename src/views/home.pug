@@ -5,19 +5,19 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title MNU Study Room
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        <!-- link(rel="stylesheet", href="https://unpkg.com/mvp.css") -->
     body 
         header
-            h1 MNU Study
+            h1(style={"text-align":"center"}) MNU Study Room
         main
-            div#welcome
+            div#welcome(style={"text-align":"center"})
                 form
                     input(placeholder="room name", required, type="text")
                     Button Enter Room
                     Button(type="reset") Cancel
             div#call
                 div#myStream
-                    fieldset#options(style="display:none")
+                    fieldset#selectOptions(style="display:none")
                         legend Advanced options
                         select#displaySurface
                             option(value="default") Show default sharing options
@@ -25,16 +25,27 @@ html(lang="en")
                             option(value="window") Prefer to share a window
                             option(value="monitor") Prefer to share an entire screen
                     div#errorMsg
-                    p Display the screensharing stream from <code>getDisplayMedia()</code> in a video element.
-                    fieldset#myScreen(style="display:none")
-                        legend My Screen Box
-                        video#myFace(autoplay, playsinline, width="300", height="300")
-                        button#startButton(disabled) Start
-                        button#mute Mute
-                        button#camera Turn Camera Off            
-                    fieldset#peerScreen(style="display:none")
-                        legend Peer Screen Box
-                        video#peerFace(autoplay, playsinline, control, width="300", height="300")
+                    p Display the screensharing stream from <code>getDisplayMedia()</code> in a video element.    
+                    div#container(style={display:"flex", height:"100vh"})
+                        div#screen(style={display:"grid", flex:"3", "grid-template-columns":"repeat(2, 1fr)", "grid-template-rows":"repeat(2, 1fr)", "grid-gap":"10px"})
+                            div#myScreen(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                legend My Screen Box
+                                video#myFace(autoplay, playsinline, width="400", height="400")
+                                br
+                                button#startButton(disabled, style={width:"200px", height:"50px"}) Start
+                                button#mute(style={width:"200px", height:"50px"}) Mute
+                                button#camera(style={width:"200px", height:"50px"}) Turn Camera Off            
+                            div#peerScreen(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                legend Peer Screen Box 1
+                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
+                            div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                legend Peer Screen Box 2
+                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
+                            div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                legend Peer Screen Box 3
+                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
+                        div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", padding:"10px", "background-color": "#f1f1f1"})
+                            div#chat-message(style={"flex-grow":"1", "overflow-y":"scroll"})
 
         script(src="/socket.io/socket.io.js")
         script(src="https://webrtc.github.io/adapter/adapter-latest.js")
