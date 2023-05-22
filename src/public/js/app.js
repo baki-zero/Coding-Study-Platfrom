@@ -12,6 +12,9 @@ const peerScreen = document.getElementById("peerScreen");
 const peerScreen2 = document.getElementById("peerScreen2");
 const peerScreen3 = document.getElementById("peerScreen3");
 const chatContainer = document.getElementById("chat-container");
+const peerFace = document.getElementById("peerFace");
+const peerFace2 = document.getElementById("peerFace2");
+const peerFace3 = document.getElementById("peerFace3");
 
 call.hidden = true;
 chatContainer.hidden = true;
@@ -201,20 +204,31 @@ function handleIce(data) {
 }
 
 function handleAddStream(data) {
-    const peerFace = document.getElementById("peerFace");
     peerFace.srcObject = data.stream;
     console.log(myStream, "my stream");
     console.log(data.stream, "peer stream");
 }
 
 function handleTrack(data) {
-    peerScreen.style.display = "block";
-    const peerFace = document.getElementById("peerFace");
-    peerFace.srcObject = data.streams[0];
-    console.log(myStream, "my stream");
-    console.log(data.streams[0], "peer stream");
+    if(!peerFace.srcObject) {
+        peerScreen.style.display = "block";
+        peerFace.srcObject = data.streams[0];
+        console.log(myStream, "my stream");
+        console.log(data.streams[0], "peer stream");
+    } else if(!peerFace2.srcObject) {
+        peerScreen2.style.display = "block";
+        peerFace2.srcObject = data.streams[0];
+        console.log(myStream, "my stream");
+        console.log(data.streams[0], "peer stream");
+    } else if(!peerFace3.srcObject) {
+        peerScreen3.style.display = "block";
+        peerFace3.srcObject = data.streams[0];
+        console.log(myStream, "my stream");
+        console.log(data.streams[0], "peer stream");
+    } else {
+        console.log("You can't Enter the Room");
+    }
 }
-
 
 let screenVideoTrack;
 function handleSuccess(stream) {
@@ -262,6 +276,5 @@ startButton.addEventListener("click", () => {
 if ((navigator.mediaDevices && 'getDisplayMedia' in navigator.mediaDevices)) {
     startButton.disabled = false;
 } else {
-
     errorMsg('getDisplayMedia is not supported');
 }

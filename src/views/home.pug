@@ -5,17 +5,33 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title MNU Study Room
-        <!-- link(rel="stylesheet", href="https://unpkg.com/mvp.css") -->
-    body 
+        <!--link(rel="stylesheet", href="https://unpkg.com/mvp.css") -->
+    body(style={"font-family": "Roboto, sans-serif", "font-size":"15px", "text-align":"center", margin:"0"})
         header
-            h1(style={"text-align":"center"}) MNU Study Room
+            h1(style={"text-align":"center"}) MNU Study Room <br />
         main
-            div#welcome(style={"text-align":"center"})
-                form
-                    input(placeholder="room name", required, type="text")
-                    Button Enter Room
-                    Button(type="reset") Cancel
-            div#call
+            div#welcome(style={"text-align":"center", margin:"20px 0"})
+                form(style={display:"flex", "justify-content":"center", margin:"20px"})
+                    div(style={width:"800px", height:"800px", border:"10px solid Green", "border-radius":"10px", margin:"20px", "background-color":"palegreen"})
+                        div(style={margin:"50px"})
+                            label 방 이름(*)<br />
+                                input(placeholder="room name", required, type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
+                                br
+                        div(style={margin:"50px"})
+                            label 방 소개 <br />
+                                input(placeholder="room introduction", type="text", style={width:"200px", height:"200px", border:"3px solid Black", "border-radius":"5px"})
+                                br
+                        div(style={margin:"50px"})
+                            label 방 인원(*)(최대 4인) <br />
+                                <input required, type="range", min="1" max="4" value="1" /> <br />
+
+                        div(style={margin:"50px"})
+                            label 방 비밀번호 (설정할 경우 입력) <br />
+                                input(placeholder="room password", type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
+                                br
+                        Button(style={width:"150px", height:"50px", "margin-left":"10px", "margin-right":"10px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Enter Room
+                        Button(type="reset", style={width:"150px", height:"50px", "margin-left":"10px", "margin-right":"10px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Cancel
+            div#call(style={margin:"0"})
                 div#myStream
                     fieldset#selectOptions(style="display:none")
                         legend Advanced options
@@ -25,28 +41,32 @@ html(lang="en")
                             option(value="window") Prefer to share a window
                             option(value="monitor") Prefer to share an entire screen
                     div#errorMsg
-                    p Display the screensharing stream from <code>getDisplayMedia()</code> in a video element.    
-                    div#container(style={display:"flex", height:"100vh"})
-                        div#screen(style={display:"grid", flex:"3", "grid-template-columns":"repeat(2, 1fr)", "grid-template-rows":"repeat(2, 1fr)", "grid-gap":"10px"})
-                            div#myScreen(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                    br
+                    div#container(style={display:"flex", width:"100vw", height:"80vh"})
+                        div#screen(style={display:"grid", flex:"3", "grid-template-columns":"repeat(2, 1fr)", "grid-template-rows":"repeat(2, 2fr)", "grid-gap":"10px"})
+                            div#myScreen(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
                                 legend My Screen Box
-                                video#myFace(autoplay, playsinline, width="400", height="400")
+                                video#myFace(autoplay, playsinline, width="400", height="350")
                                 br
-                                button#startButton(disabled, style={width:"200px", height:"50px"}) Start
-                                button#mute(style={width:"200px", height:"50px"}) Mute
-                                button#camera(style={width:"200px", height:"50px"}) Turn Camera Off            
-                            div#peerScreen(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                button#startButton(disabled, style={width:"150px", height:"50px", "background-color":"#FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Start
+                                button#mute(style={width:"150px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Mute
+                                button#camera(style={width:"150px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Turn Camera Off            
+                            div#peerScreen(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
                                 legend Peer Screen Box 1
-                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
-                            div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                video#peerFace(autoplay, playsinline, control, width="400", height="350")
+                            div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
                                 legend Peer Screen Box 2
-                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
-                            div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"1px solid black", "text-align":"center"})
+                                video#peerFace2(autoplay, playsinline, control, width="400", height="350")
+                            div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
                                 legend Peer Screen Box 3
-                                video#peerFace(autoplay, playsinline, control, width="400", height="400")
-                        div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", padding:"10px", "background-color": "#f1f1f1"})
-                            div#chat-message(style={"flex-grow":"1", "overflow-y":"scroll"})
-
+                                video#peerFace3(autoplay, playsinline, control, width="400", height="350")
+                        div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", "background-color":"#f1f1f1", border:"3px solid black"})
+                            div#chatView(style={height:"95%", "overflow-y":"scroll", display:"flex", "flex-direction":"column-reverse"})
+                                div(style={flex:"1"})
+                            div(style={height:"5%", "border-top":"3px solid black", "text-align":"center"})
+                                form#chatForm(onsubmit="return false", style={"justify-content": "center", display:"flex"})
+                                    input(type="text" id="msg" style={width:"80%", height:"35px", "border-radius":"8px"})
+                                    input(type="submit" id="send" value="전송" style={width:"16%", height:"40px", "border-radius":"50px", background:"black", color:"white"})
         script(src="/socket.io/socket.io.js")
         script(src="https://webrtc.github.io/adapter/adapter-latest.js")
         script(src="/public/js/app.js")
