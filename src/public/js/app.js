@@ -1,4 +1,4 @@
-const socket = io();   //socket.io¸¦ ÀÌ¿ëÇØ front-end¿¡¼­ back-end·Î ¿¬°á
+const socket = io();   //socket.io?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ front-end?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ back-end?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 
 const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
@@ -19,10 +19,10 @@ const peerFace3 = document.getElementById("peerFace3");
 call.hidden = true;
 chatContainer.hidden = true;
 
-let myStream;               //streamÀº ºñµð¿À¿Í ¿Àµð¿À°¡ °áÇÕµÈ °Í
-let muted = false;          //Ã³À½¿¡ ¼Ò¸® x
-let cameraOff = false;      //Ã³À½¿¡ Ä«¸Þ¶ó on
-let roomName;               //¹æÀÌ¸§
+let myStream;               //stream?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
+let muted = false;          //ì²˜å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½???ëªŒì˜™ x
+let cameraOff = false;      //ì²˜å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ on
+let roomName;               //?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ëªŒì˜™
 let myPeerConnection;       
 
 if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.version >= 107) {
@@ -34,18 +34,18 @@ if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.versio
     adapter.browserShim.shimGetDisplayMedia(window, 'screen');
 }
 
-// Ä«¸Þ¶ó Á¤º¸ °¡Á®¿À±â
+// ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 async function getCameras() {
     try {
-        const devices = await navigator.mediaDevices.enumerateDevices();                //»ç¿ë °¡´ÉÇÑ ¹Ìµð¾î ÀÔÃâ·Â ÀåÄ¡ ¸ñ·Ï ¿äÃ»
-        const cameras = devices.filter((device) => device.kind === "videoinput");       //devices¿¡¼­ videoinput °ª¸¸ cameras¿¡ ÀúÀå
+        const devices = await navigator.mediaDevices.enumerateDevices();                //?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
+        const cameras = devices.filter((device) => device.kind === "videoinput");       //devices?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ videoinput ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ cameras?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
         const currentCamera = myStream.getVideoTracks()[0];                             //
         cameras.forEach((camera) => {
             const option = document.createElement("option");
             option.value = camera.deviceId;
             option.innerText = camera.label;
-            if(currentCamera.label === camera.label) {      //Ä«¸Þ¶ó optionÀÌ ÇöÀç ¼±ÅÃµÈ Ä«¸Þ¶ó¿Í °°Àº labelÀ» °¡Áö°í ÀÖ´Ù¸é ±×°Ô »ç¿ëÇÏ°í ÀÖ´Â Ä«¸Þ¶óÀÌ´Ù.
-                option.selected = true;                     //ÃÊ±â¿¡ »ç¿ëÇÏ°í ÀÖ´Â Ä«¸Þ¶ó·Î ¿É¼ÇÀ» ¼³Á¤
+            if(currentCamera.label === camera.label) {      //ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ option?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ label?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ëªŒì˜™ ?ï¿½ï¿½?ï¿½ï¿½ê³¤ì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½æ§‹å ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½.
+                option.selected = true;                     //?ï¿½ï¿½?ï¿½ï¿½ê¸°ì— ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½æ§‹å ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
             }
             cameraSelect.appendChild(option);
         });
@@ -54,13 +54,13 @@ async function getCameras() {
     }
 }
 
-async function getMedia(deviceId) { //Ä«¸Þ¶ó, ¸¶ÀÌÅ© ,´Ù¸¥ Ä«¸Þ¶ó, streamµéÀ» ´Ù ºÒ·¯¿È
+async function getMedia(deviceId) { //ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½, ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ,?ï¿½ï¿½?ï¿½ï¿½ëªŒì˜™ ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½, stream?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½???ë¤„ì˜™?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
     myScreen.style.display = "block";
-    const initialConstrains = {     //deviceId°¡ ¾øÀ» ¶§(cameras ¸¸µé±â Àü) ½ÇÇà(¿Àµð¿À ¼³Á¤, ¼¿Ä«¸ðµå(Ä«¸Þ¶ó°¡ ¾ø´Â °æ¿ì¿¡´Â Ãâ·Âx))
+    const initialConstrains = {     //deviceId?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½(cameras ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½) ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½(?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½, ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?(ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½))
         audio: true,
         video: {facingMode: "user"},
     };
-    const cameraConstraints = {     //deviceId°¡ ÀÖ°í ÀÎÀÚ·Î ¹ÞÀº deviceId°¡ ÀÖ´Â °æ¿ì ÇØ´ç Id·Î ±³Ã¼
+    const cameraConstraints = {     //deviceId?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ê³¤ì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ë¤„ì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ deviceId?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ Id?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
         audio: true,
         video: { deviceId : {exact: deviceId} },
     };
@@ -69,7 +69,7 @@ async function getMedia(deviceId) { //Ä«¸Þ¶ó, ¸¶ÀÌÅ© ,´Ù¸¥ Ä«¸Þ¶ó, streamµéÀ» ´Ù
             deviceId ? cameraConstraints : initialConstrains
         );
         myFace.srcObject = myStream;
-        if (!deviceId) {            //Ã³À½¿¡ getMedia¸¦ ÇÒ ¶§¸¸ ½ÇÇàµÊ
+        if (!deviceId) {            //ì²˜å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ getMedia?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
             await getCameras();         
         }
     } catch (e) {
@@ -103,13 +103,13 @@ function handleCameraClick() {
     }
 }
 
-async function handleCameraChange() {   //Ä«¸Þ¶ó ±³Ã¼½Ã
+async function handleCameraChange() {   //ì¹´å ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ì²´å ?ï¿½ï¿½?ï¿½ï¿½
     await getMedia(cameraSelect.value);
     if(myPeerConnection) {
         const videoTrack = myStream.getVideoTracks()[0];
         const videoSender = myPeerConnection
-            .getSenders()       //sender´Â ¿ì¸®ÀÇ peer·Î º¸³»Áø media stream trackÀ» ÄÁÆ®·ÑÇÏ°Ô ÇØÁÜ.
-            .find((sender) => sender.track.kind === "video");   //senderÀº ´Ù¸¥ ºê¶ó¿ìÀú·Î º¸³»Áø ºñµð¿À¿Í ¿Àµð¿À µ¥ÀÌÅÍ¸¦ ÄÁÆ®·ÑÇÏ´Â ¹æ¹ý
+            .getSenders()       //sender?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ë¦¬å ?ï¿½ï¿½?ï¿½ï¿½ peer?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ media stream track?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ê³¤ì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½.
+            .find((sender) => sender.track.kind === "video");   //sender?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ëªŒì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ëªŒì˜™ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
         videoSender.replaceTrack(videoTrack);
     }
 }
@@ -118,9 +118,28 @@ muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
 cameraSelect.addEventListener("input", handleCameraChange);
 
-// Welcome Form (join a room)
+// Welcome Form (join a room), chat code
 const welcome = document.getElementById("welcome");
 const welcomeForm = welcome.querySelector("form");
+const chatView = document.getElementById("chatView");
+const chatForm = document.getElementById("chatForm");
+const nickName = document.getElementById("nickName");
+
+function handleMessageSubmit(event) {
+    event.preventDefault();
+    const input = chatForm.querySelector("input");
+    const value = input.value;
+    socket.emit("new_message", input.value, roomName, () => {
+        addMessage(`You : ${value}`);
+    });
+    input.value = "";
+}
+
+function handleNicknameSubmit(event) {
+    event.preventDefault();
+    const input = nickName.querySelector("#name");
+    socket.emit("nickname", input.value);
+}
 
 async function initCall() {
     welcome.hidden = true;
@@ -139,29 +158,47 @@ async function handleWelcomeSubmit(event) {
 }
 
 welcomeForm.addEventListener("submit", handleWelcomeSubmit);
+welcomeForm.addEventListener("submit", handleNicknameSubmit);
+chatForm.addEventListener("submit", handleMessageSubmit);
+
+//chat code
+function addMessage(message) {
+    const ul = chatView.querySelector("ul");
+    const li = document.createElement("li");
+    li.innerText = message;
+    ul.appendChild(li);
+}
 
 //Socket Code
-socket.on("welcome", async () => {      //peer A ºê¶ó¿ìÀú¿¡¼­ ½ÇÇà -> offer »ý¼º
+socket.on("welcome", async(user) => {
+    addMessage(`Welcome ${user}`);
     myDataChannel = myPeerConnection.createDataChannel("chat");
     myDataChannel.addEventListener("message", console.log);
     console.log("made data channel");
     const offer = await myPeerConnection.createOffer();
-    myPeerConnection.setLocalDescription(offer);    //localDescription ÇÏ°í 
+    myPeerConnection.setLocalDescription(offer);
     console.log("sent the offer");
-    socket.emit("offer", offer, roomName);          //peer B·Î offer Àü¼Û
+    socket.emit("offer", offer, roomName);
 });
 
-socket.on("offer", async (offer) => {                //peer B°¡ offerÀ» ¹Þ¾Æ¼­
+socket.on("bye", (left) => {
+    addMessage(`GoodBye ${left}`);
+})
+
+socket.on("new_message", addMessage);
+
+//RTC Code
+socket.on("offer", async (offer) => {                //peer B?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ offer?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
     myPeerConnection.addEventListener("datachannel", (event) => {
         myDataChannel = event.channel;
         myDataChannel.addEventListener("message", console.log);
     });
     console.log("received the offer");
-    myPeerConnection.setRemoteDescription(offer);   //remoteDescription ¼³Á¤
-    const answer = await myPeerConnection.createAnswer();   //peer B°¡ answer »ý¼º ÈÄ 
-    myPeerConnection.setLocalDescription(answer);    //localDescription ÇÔ
+    myPeerConnection.setRemoteDescription(offer);   //remoteDescription ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
+    const answer = await myPeerConnection.createAnswer();   //peer B?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ answer ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ 
+    myPeerConnection.setLocalDescription(answer);    //localDescription ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
     console.log("sent the answer");
-    socket.emit("answer", answer, roomName);        //answerÀ» ¹ÞÀ¸¸é ¸ðµç »ç¶÷¿¡°Ô ¾Ë·Á¾ßÇÏ¹Ç·Î roomNameµµ Àü´Þ
+    socket.emit("answer", answer, roomName);        //answer?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½ë¤„ì˜™?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?ë¤„ì˜™ roomName?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
 });
 
 socket.on("answer", (answer) => {
@@ -175,7 +212,7 @@ socket.on("ice", (ice) => {
 });
 
 //RTC Code
-function makeConnection() { //addStream°ú °°Àº ÇÔ¼ö, trackµéÀ» °³º°ÀûÀ¸·Î Ãß°¡ÇØÁÜ
+function makeConnection() { //addStream?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½, track?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½?ï¿½ï¿½ê³¤ì˜™?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½
     myPeerConnection = new RTCPeerConnection({
         iceServers: [
             {
@@ -189,10 +226,9 @@ function makeConnection() { //addStream°ú °°Àº ÇÔ¼ö, trackµéÀ» °³º°ÀûÀ¸·Î Ãß°¡ÇØ
             },
         ],
     });
-    myPeerConnection.addEventListener("icecandidate", handleIce);   //candidate´Â ºê¶ó¿ìÀú°¡ ÀÚ½ÅÀÇ ¼ÒÅë¹æ½ÄÀ» ¾Ë·ÁÁÖ´Â °Í
+    myPeerConnection.addEventListener("icecandidate", handleIce);
     //myPeerConnection.addEventListener("addstream", handleAddStream);
     myPeerConnection.addEventListener("track", handleTrack);
-    //°¢°¢ÀÇ ºê¶ó¿ìÀú¿¡¼­ Ä«¸Þ¶ó¿Í ¸¶ÀÌÅ©ÀÇ µ¥ÀÌÅÍ streamÀ» ¹Þ¾Æ¼­ ±×°ÍµéÀ» ¿¬°á ¾È¿¡ ³ÖÀ½
     myStream
         .getTracks()
         .forEach((track) => myPeerConnection.addTrack(track, myStream));   
@@ -200,7 +236,7 @@ function makeConnection() { //addStream°ú °°Àº ÇÔ¼ö, trackµéÀ» °³º°ÀûÀ¸·Î Ãß°¡ÇØ
 
 function handleIce(data) {
     console.log("sent candidate");
-    socket.emit("ice", data.candidate, roomName);   //peer A, B°¡ candidateµéÀ» ¼­·Î ÁÖ°í ¹Þ´Â´Ù´Â ¶æ
+    socket.emit("ice", data.candidate, roomName);
 }
 
 function handleAddStream(data) {
