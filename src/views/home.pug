@@ -8,33 +8,39 @@ html(lang="en")
         <!--link(rel="stylesheet", href="https://unpkg.com/mvp.css") -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
-    body(style={"font-family":'Poor Story', "font-size":"25px", color:"#FFFFFF", "font-weight":"bold", "text-align":"center", margin:"0", "background-image":"url('https://cdn.pixabay.com/photo/2020/09/20/03/49/board-5585922_1280.png')", "background-size":"cover", "background-repeat":"no-repeat"})
+        <link href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    body(style={"font-family":'Gothic A1', "font-size":"25px", color:"#FFFFFF", margin:"0", "background-image":"url('https://cdn.pixabay.com/photo/2020/09/20/03/49/board-5585922_1280.png')", height:"100vh", width:"100vw", "background-size":"cover", "background-repeat":"no-repeat"})
         header
-            h1(style={"text-align":"center", "margin-top": "160px"}) MNU Study Room <br />
+            a(href="home.pug")
+                i(class="fas fa-home fa-lg", style={margin:"25px", color:"green"})
+            h1(style={"text-align":"center", "margin-top": "90px", "letter-spacing": "10px", color:"white", "-webkit-text-stroke":"2px black"}) MNU  Study  Room <br />
         main
-            div#welcome(style={"text-align":"center", margin:"25px 0"})
+            div#welcome(style={"text-align":"center", margin:"20px 0"})
                 form(style={display:"flex", "justify-content":"center", margin:"20px"})
                     div
-                        div(style={margin:"20px"})
+                        div(style={margin:"10px"})
                             label 방 이름을 입력해주세요 (*)<br />
-                                input(placeholder="room name", required, type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
+                                input(placeholder="room name", required, type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px", "font-size":"15px", "text-align":"center"})
                                 br
                         div(style={margin:"30px"})
                             label 방 소개를 해주세요 <br />
-                                input(placeholder="room introduction", type="text", style={width:"200px", height:"100px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
+                                input(placeholder="room introduction", type="text", style={width:"200px", height:"100px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px", "font-size":"15px", "text-align":"center"})
                                 br
                         div(style={margin:"30px"})
-                            label 방 참여자를 선택해주세요 (*) (최대 4인) <br />
-                                input(required, type="range", min="1" max="4" value="1", style={"margin-top": "10px"})
-                                br
+                            label 방 참여자를 선택해주세요 (*) <br />
+                                select(style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px", "font-size":"20px", "font-weight":"bold", "text-align":"center"}) Participant
+                                    option(style={"font-size":"20px", "font-weight":"bold"}) 1
+                                    option(style={"font-size":"20px", "font-weight":"bold"}) 2
+                                    option(style={"font-size":"20px", "font-weight":"bold"}) 3
+                                    option(style={"font-size":"20px", "font-weight":"bold"}) 4
                         div(style={margin:"30px"})
                             label 비밀번호 <br />
-                                input(placeholder="room password", type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
+                                input(placeholder="room password", type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px", "font-size":"15px", "text-align":"center"})
                                 br
                         div#nickName(style={margin:"30px"})
-                            label 닉네임(*) <br />
-                                input(placeholder="nickname", required, type="text", id="name", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
+                            label 닉네임 (*) <br />
+                                input(placeholder="nickname", required, type="text", id="name", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "font-size":"15px", "text-align":"center"})
                         Button(style={width:"150px", height:"50px",margin:"10px", "border-radius":"5px", padding:"5px", "font-size":"20px", "font-weight":"bold"}) 방 생성/입장
                         Button(type="reset", style={width:"150px", height:"50px", margin:"10px", "border-radius":"5px", padding:"5px", "font-size":"20px", "font-weight":"bold"}) 삭제
             div#call(style={margin:"0"})
