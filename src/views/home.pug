@@ -6,34 +6,37 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title MNU Study Room
         <!--link(rel="stylesheet", href="https://unpkg.com/mvp.css") -->
-    body(style={"font-family": "Roboto, sans-serif", "font-size":"20px", "font-weight":"bold", "text-align":"center", margin:"0"})
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+    body(style={"font-family":'Poor Story', "font-size":"25px", color:"#FFFFFF", "font-weight":"bold", "text-align":"center", margin:"0", "background-image":"url('https://cdn.pixabay.com/photo/2020/09/20/03/49/board-5585922_1280.png')", "background-size":"cover", "background-repeat":"no-repeat"})
         header
-            h1(style={"text-align":"center"}) MNU Study Room <br />
+            h1(style={"text-align":"center", "margin-top": "160px"}) MNU Study Room <br />
         main
-            div#welcome(style={"text-align":"center", margin:"20px 0"})
+            div#welcome(style={"text-align":"center", margin:"25px 0"})
                 form(style={display:"flex", "justify-content":"center", margin:"20px"})
-                    div(style={width:"800px", height:"800px", border:"10px solid Green", "border-radius":"10px", margin:"20px", "background-color":"palegreen"})
-                        div(style={margin:"30px"})
-                            label Please enter the room name(*)<br />
-                                input(placeholder="room name", required, type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
+                    div
+                        div(style={margin:"20px"})
+                            label 방 이름을 입력해주세요 (*)<br />
+                                input(placeholder="room name", required, type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
                                 br
                         div(style={margin:"30px"})
-                            label Here's an introduction to the room <br />
-                                input(placeholder="room introduction", type="text", style={width:"200px", height:"200px", border:"3px solid Black", "border-radius":"5px"})
+                            label 방 소개를 해주세요 <br />
+                                input(placeholder="room introduction", type="text", style={width:"200px", height:"100px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
                                 br
                         div(style={margin:"30px"})
-                            label Pariticipants(*)(Maximum 4 people) <br />
-                                <input required, type="range", min="1" max="4" value="1" /> <br />
-
+                            label 방 참여자를 선택해주세요 (*) (최대 4인) <br />
+                                input(required, type="range", min="1" max="4" value="1", style={"margin-top": "10px"})
+                                br
                         div(style={margin:"30px"})
-                            label Password <br />
-                                input(placeholder="room password", type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
+                            label 비밀번호 <br />
+                                input(placeholder="room password", type="text", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px", "margin-top": "10px"})
                                 br
                         div#nickName(style={margin:"30px"})
-                            label Nickname(*) <br />
+                            label 닉네임(*) <br />
                                 input(placeholder="nickname", required, type="text", id="name", style={width:"200px", height:"50px", border:"3px solid Black", "border-radius":"5px"})
-                        Button(style={width:"150px", height:"50px", "margin-left":"10px", "margin-right":"10px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Enter Room
-                        Button(type="reset", style={width:"150px", height:"50px", "margin-left":"10px", "margin-right":"10px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Cancel
+                        Button(style={width:"150px", height:"50px",margin:"10px", "border-radius":"5px", padding:"5px", "font-size":"20px", "font-weight":"bold"}) 방 생성/입장
+                        Button(type="reset", style={width:"150px", height:"50px", margin:"10px", "border-radius":"5px", padding:"5px", "font-size":"20px", "font-weight":"bold"}) 삭제
             div#call(style={margin:"0"})
                 div#myStream
                     fieldset#selectOptions(style="display:none")

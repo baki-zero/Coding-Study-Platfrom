@@ -1,4 +1,4 @@
-const socket = io();   //socket.io?��?��?�� ?��?��?��?��?��?��?�� front-end?��?��?��?��?��?�� back-end?��?��?�� ?��?��?��?��?��?��
+const socket = io();
 
 const myFace = document.getElementById("myFace");
 const muteBtn = document.getElementById("mute");
@@ -15,14 +15,15 @@ const chatContainer = document.getElementById("chat-container");
 const peerFace = document.getElementById("peerFace");
 const peerFace2 = document.getElementById("peerFace2");
 const peerFace3 = document.getElementById("peerFace3");
+const body = document.querySelector("body");
 
 call.hidden = true;
 chatContainer.hidden = true;
 
-let myStream;               //stream?��?��?�� ?��?��?��?��?��?��?��?��?�� ?��?��?��?��?��?��?��?��?��?���? ?��?��?��?��?��?��?�� ?��?��?��
-let muted = false;          //처占?��?��?��?��?�� ?��???몌옙 x
-let cameraOff = false;      //처占?��?��?��?��?�� 카占?��?��?�� on
-let roomName;               //?��?��?��?��?��몌옙
+let myStream;              
+let muted = false;         
+let cameraOff = false;      
+let roomName;         
 let myPeerConnection;       
 
 if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.version >= 107) {
@@ -34,18 +35,18 @@ if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.versio
     adapter.browserShim.shimGetDisplayMedia(window, 'screen');
 }
 
-// 카占?��?��?�� ?��?��?��?��?��?�� ?��?��?��?��?��?��?��?��?��?��?��?��
+//카메라 정보 가져오기
 async function getCameras() {
     try {
-        const devices = await navigator.mediaDevices.enumerateDevices();                //?��?��?��?���? ?��?��?��?��?��?��?��?��?�� ?��?��?��?��?���? ?��?��?��?��?��?��?���? ?��?��?���? ?��?��?��?���? ?��?��?���?
-        const cameras = devices.filter((device) => device.kind === "videoinput");       //devices?��?��?��?��?��?�� videoinput ?��?��?��?��?��?�� cameras?��?��?�� ?��?��?��?��?��?��
-        const currentCamera = myStream.getVideoTracks()[0];                             //
-        cameras.forEach((camera) => {
+        const devices = await navigator.mediaDevices.enumerateDevices();                
+        const cameras = devices.filter((device) => device.kind === "videoinput");   
+        const currentCamera = myStream.getVideoTracks()[0];  
+        cameras.forEach((camera) => {                           
             const option = document.createElement("option");
             option.value = camera.deviceId;
             option.innerText = camera.label;
-            if(currentCamera.label === camera.label) {      //카占?��?��?�� option?��?��?�� ?��?��?��?��?��?�� ?��?��?��?��?��?��?�� 카占?��?��?��?���? ?��?��?��?��?��?�� label?��?��?�� ?��?��?��?��?��?��?��?��?�� ?��?��?��몌옙 ?��?��곤옙 ?��?��?��?��?��?��構占�? ?��?��?��?�� 카占?��?��?��?��?��?��?��.
-                option.selected = true;                     //?��?��기에 ?��?��?��?��?��?��構占�? ?��?��?��?�� 카占?��?��?��?���? ?��?��?��?��?��?��?�� ?��?��?��?��?��?��
+            if(currentCamera.label === camera.label) {  
+                option.selected = true;
             }
             cameraSelect.appendChild(option);
         });
@@ -54,13 +55,13 @@ async function getCameras() {
     }
 }
 
-async function getMedia(deviceId) { //카占?��?��?��, ?��?��?��?��?��?��?�� ,?��?��몌옙 카占?��?��?��, stream?��?��?��?��?��?�� ?��?��?�� ?��???뤄옙?��?��?��
+async function getMedia(deviceId) { 
     myScreen.style.display = "block";
-    const initialConstrains = {     //deviceId?��?��?�� ?��?��?��?��?��?�� ?��?��?��(cameras ?��?��?��?��?��?��?���? ?��?��?��) ?��?��?��?��?��?��(?��?��?��?��?��?��?���? ?��?��?��?��?��?��, ?��?��?��카占?��?��?���?(카占?��?��?�� ?��?��?��?��?��?�� ?��?��?��?��?��?��?���? ?��?��?��?��?��))
+    const initialConstrains = {
         audio: true,
         video: {facingMode: "user"},
     };
-    const cameraConstraints = {     //deviceId?��?��?�� ?��?��곤옙 ?��?��?��?��?��뤄옙 ?��?��?��?��?��?�� deviceId?��?��?�� ?��?��?��?�� ?��?��?��?���? ?��?��?��?�� Id?��?��?�� ?��?��?���?
+    const cameraConstraints = {
         audio: true,
         video: { deviceId : {exact: deviceId} },
     };
@@ -69,7 +70,7 @@ async function getMedia(deviceId) { //카占?��?��?��, ?��?��
             deviceId ? cameraConstraints : initialConstrains
         );
         myFace.srcObject = myStream;
-        if (!deviceId) {            //처占?��?��?��?��?�� getMedia?��?��?�� ?��?��?�� ?��?��?��?��?��?�� ?��?��?��?��?��?��?���?
+        if (!deviceId) {            
             await getCameras();         
         }
     } catch (e) {
@@ -103,13 +104,13 @@ function handleCameraClick() {
     }
 }
 
-async function handleCameraChange() {   //카占?��?��?�� ?��?��?��체占?��?��
+async function handleCameraChange() { 
     await getMedia(cameraSelect.value);
     if(myPeerConnection) {
         const videoTrack = myStream.getVideoTracks()[0];
         const videoSender = myPeerConnection
-            .getSenders()       //sender?��?��?�� ?��?��리占?��?�� peer?��?��?�� ?��?��?��?��?��?��?��?��?�� media stream track?��?��?�� ?��?��?��?��?��?��?��?��?��곤옙 ?��?��?��?��?��?��.
-            .find((sender) => sender.track.kind === "video");   //sender?��?��?�� ?��?��몌옙 ?��?��?��?��?��?��?��?��?��?��?��?�� ?��?��?��?��?��?��?��?��?�� ?��?��?��?��?��?��?��?��?�� ?��?��?��?��?��?��?���? ?��?��?��?��?��?��?��?��몌옙 ?��?��?��?��?��?��?��?��?��?��?�� ?��?��?��?���?
+            .getSenders() 
+            .find((sender) => sender.track.kind === "video");
         videoSender.replaceTrack(videoTrack);
     }
 }
@@ -144,6 +145,7 @@ function handleNicknameSubmit(event) {
 async function initCall() {
     welcome.hidden = true;
     call.hidden = false;
+    body.removeAttribute('style');
     await getMedia();
     makeConnection();
 }
@@ -188,17 +190,17 @@ socket.on("bye", (left) => {
 socket.on("new_message", addMessage);
 
 //RTC Code
-socket.on("offer", async (offer) => {                //peer B?��?��?�� offer?��?��?�� ?��?��?��?��?��
+socket.on("offer", async (offer) => {
     myPeerConnection.addEventListener("datachannel", (event) => {
         myDataChannel = event.channel;
         myDataChannel.addEventListener("message", console.log);
     });
     console.log("received the offer");
-    myPeerConnection.setRemoteDescription(offer);   //remoteDescription ?��?��?��?��?��?��
-    const answer = await myPeerConnection.createAnswer();   //peer B?��?��?�� answer ?��?��?��?��?��?�� ?��?��?�� 
-    myPeerConnection.setLocalDescription(answer);    //localDescription ?��?��?��
+    myPeerConnection.setRemoteDescription(offer);
+    const answer = await myPeerConnection.createAnswer();
+    myPeerConnection.setLocalDescription(answer);
     console.log("sent the answer");
-    socket.emit("answer", answer, roomName);        //answer?��?��?�� ?��?��?��?��?��?��?��?��?�� ?��?��?��?���? ?��?��?��?��?��?��?��?��?��?���? ?��?��뤄옙?��?��?��?��?���?뤄옙 roomName?��?��?�� ?��?��?��?��?��?��
+    socket.emit("answer", answer, roomName);
 });
 
 socket.on("answer", (answer) => {
@@ -212,7 +214,7 @@ socket.on("ice", (ice) => {
 });
 
 //RTC Code
-function makeConnection() { //addStream?��?��?�� ?��?��?��?��?��?�� ?��?��?��?��, track?��?��?��?��?��?�� ?��?��?��?��?��?��?��?��?��?��?��?��?��?��?�� ?��?��곤옙?��?��?��?��?��?��
+function makeConnection() {
     myPeerConnection = new RTCPeerConnection({
         iceServers: [
             {
