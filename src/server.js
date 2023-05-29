@@ -23,7 +23,7 @@ wsServer.on("connection", (socket) => {
         socket.to(roomName).emit("welcome", socket.nickname);
     });
     socket["nickname"] = "Anonymous";
-    socket.on("disconnecting", () => {
+    socket.on("disconnect", () => {
         socket.rooms.forEach((room) => {socket.to(room).emit("bye", socket.nickname)});
     });
     socket.on("new_message", (msg, room, done) => { // 메세지랑 done 함수를 받을 것

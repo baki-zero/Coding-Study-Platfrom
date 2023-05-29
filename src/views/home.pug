@@ -13,8 +13,8 @@ html(lang="en")
     body(style={"font-family":'Gothic A1', "font-size":"25px", color:"#FFFFFF", margin:"0", "background-image":"url('https://cdn.pixabay.com/photo/2020/09/20/03/49/board-5585922_1280.png')", height:"100vh", width:"100vw", "background-size":"cover", "background-repeat":"no-repeat"})
         header
             a(href="home.pug")
-                i(class="fas fa-home fa-lg", style={margin:"25px", color:"green"})
-            h1(style={"text-align":"center", "margin-top": "90px", "letter-spacing": "10px", color:"white", "-webkit-text-stroke":"2px black"}) MNU  Study  Room <br />
+                i(class="fas fa-home", style={"font-size":"2em", margin:"15px", color:"green"})
+            h1(style={"text-align":"center", "margin-top": "90px", "letter-spacing": "10px", color:"black", "-webkit-text-stroke":"2px black"}) MNU  Study  Room <br />
         main
             div#welcome(style={"text-align":"center", margin:"20px 0"})
                 form(style={display:"flex", "justify-content":"center", margin:"20px"})
@@ -45,41 +45,41 @@ html(lang="en")
                         Button(type="reset", style={width:"150px", height:"50px", margin:"10px", "border-radius":"5px", padding:"5px", "font-size":"20px", "font-weight":"bold"}) 삭제
             div#call(style={margin:"0"})
                 div#myStream
-                    fieldset#selectOptions(style="display:none")
-                        legend Advanced options
-                        select#displaySurface
-                            option(value="default") Show default sharing options
-                            option(value="browser") Prefer to share a browser tab
-                            option(value="window") Prefer to share a window
-                            option(value="monitor") Prefer to share an entire screen
+                    fieldset#selectOptions(style={display:"none", border:"3px solid white"})
+                        legend(style={"margin-top": "10px", "font-size":"20px", "font-weight":"bold", color:"white"}) Camera Options
+                        select#displaySurface(style={width:"300px", height:"25px", "margin-top": "10px", "font-size":"20px", "text-align":"center", "background-color":"white"})
+                            option(value="default", style={"font-size":"18px"}) Show default sharing options
+                            option(value="browser", style={"font-size":"18px"}) Prefer to share a browser tab
+                            option(value="window", style={"font-size":"18px"}) Prefer to share a window
+                            option(value="monitor", style={"font-size":"18px"}) Prefer to share an entire screen
                     div#errorMsg
                     br
-                    div#container(style={display:"flex", width:"100vw", height:"80vh"})
-                        div#screen(style={display:"grid", flex:"3", "grid-template-columns":"repeat(2, 1fr)", "grid-template-rows":"repeat(2, 2fr)", "grid-gap":"10px"})
-                            div#myScreen(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
-                                legend My Screen Box
-                                video#myFace(autoplay, playsinline, width="400", height="350")
+                    div#container(style={display:"flex", width:"99vw", height:"78vh"})
+                        div#screen(style={display:"grid", flex:"3", "grid-template-columns":"repeat(2, 1.5fr)", "grid-template-rows":"repeat(2, 2fr)", "grid-gap":"10px"})
+                            div#myScreen(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px", "margin-bottom":"10px"}) My Screen Box
+                                video#myFace(autoplay, playsinline, width="400", height="300", style={"margin-bottom":"20px"})
                                 br
-                                button#startButton(disabled, style={width:"150px", height:"50px", "background-color":"#FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Start
-                                button#mute(style={width:"150px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Mute
-                                button#camera(style={width:"150px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size" : "12px"}) Turn Camera Off            
-                            div#peerScreen(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
-                                legend Peer Screen Box 1
-                                video#peerFace(autoplay, playsinline, control, width="400", height="350")
-                            div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
-                                legend Peer Screen Box 2
-                                video#peerFace2(autoplay, playsinline, control, width="400", height="350")
-                            div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid black", "text-align":"center"})
-                                legend Peer Screen Box 3
-                                video#peerFace3(autoplay, playsinline, control, width="400", height="350")
-                        div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", "background-color":"#f1f1f1", border:"3px solid black"})
+                                button#startButton(disabled, style={width:"160px", height:"50px", "background-color":"#FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size":"12px", "font-weight":"bold", "font-size":"18px"}) 화면공유 시작
+                                button#mute(style={width:"160px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size":"12px", "font-weight":"bold", "font-size":"18px"}) 소리 끄기
+                                button#camera(style={width:"160px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size":"12px", "font-weight":"bold", "font-size":"18px"}) 카메라 끄기           
+                            div#peerScreen1(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 1
+                                video#peerFace1(autoplay, playsinline, control, width="400", height="300")
+                            div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 2
+                                video#peerFace2(autoplay, playsinline, control, width="400", height="300")
+                            div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 3
+                                video#peerFace3(autoplay, playsinline, control, width="400", height="300")
+                        div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", "background-color":"#B2D3C2", border:"3px solid white"})
                             div#chatView(style={height:"95%", "overflow-y":"scroll", display:"flex", "flex-direction":"column-reverse"})
                                 div(style={flex:"1"})
                                     ul
                             div(style={height:"5%", "border-top":"3px solid black", "text-align":"center"})
                                 form#chatForm(onsubmit="return false", style={"justify-content": "center", display:"flex"})
                                     input(type="text" id="msg" style={width:"80%", height:"35px", "border-radius":"8px"})
-                                    input(type="submit" id="send" value="전송" style={width:"16%", height:"40px", "border-radius":"50px", background:"black", color:"white"})
+                                    input(type="submit" id="send" value="전송" style={width:"16%", height:"40px", "border-radius":"50px", background:"black", color:"white", "font-weight":"bold"})
         script(src="/socket.io/socket.io.js")
         script(src="https://webrtc.github.io/adapter/adapter-latest.js")
         script(src="/public/js/app.js")
