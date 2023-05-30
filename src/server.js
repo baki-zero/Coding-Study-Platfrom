@@ -15,20 +15,19 @@ app.get("/*", (req, res) => res.redirect("/"));
 const httpServer = http.createServer(app);
 const wsServer = SocketIO(httpServer);
 
-
-
 wsServer.on("connection", (socket) => {
     socket.on("join_room", (roomName) => {
         socket.join(roomName);
         socket.to(roomName).emit("welcome", socket.nickname);
     });
     socket["nickname"] = "Anonymous";
-    socket.on("disconnect", () => {
+    socket.on("disconnecting", () => {
         socket.rooms.forEach((room) => {socket.to(room).emit("bye", socket.nickname)});
+        console.log('user disconnected');
     });
-    socket.on("new_message", (msg, room, done) => { // 메세지랑 done 함수를 받을 것
-        socket.to(room).emit("new_message", `${socket.nickname} : ${msg}`); // new_message 이벤트를 emit한다! 방금 받은 메시지가 payload가 된다!
-        done(); // done은 프론트엔드에서 코드를 실행할 것!! (백엔드에서 작업 다 끝나고!!)
+    socket.on("new_message", (msg, room, done) => {                             // 메세지랑 done 함수를 받을 것
+        socket.to(room).emit("new_message", `${socket.nickname} : ${msg}`);     // new_message 이벤트를 emit한다! 방금 받은 메시지가 payload가 된다!
+        done();                                                                 // done은 프론트엔드에서 코드를 실행할 것!! (백엔드에서 작업 다 끝나고!!)
     });
     socket.on("nickname", nickname => socket["nickname"] = nickname);
     socket.on("offer", (offer, roomName) => {
@@ -40,7 +39,6 @@ wsServer.on("connection", (socket) => {
     socket.on("ice", (ice, roomName) => {
         socket.to(roomName).emit("ice", ice);
     });
-    
 });
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);

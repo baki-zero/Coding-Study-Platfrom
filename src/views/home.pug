@@ -64,13 +64,13 @@ html(lang="en")
                                 button#mute(style={width:"160px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size":"12px", "font-weight":"bold", "font-size":"18px"}) 소리 끄기
                                 button#camera(style={width:"160px", height:"50px", "background-color":"##FFFFFF", color:"black", "border-radius":"5px", padding:"5px", "font-size":"12px", "font-weight":"bold", "font-size":"18px"}) 카메라 끄기           
                             div#peerScreen1(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
-                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 1
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) 여기에 socket id나 닉네임 부여하고 닉네임 하위의 비디오 삭제가능?
                                 video#peerFace1(autoplay, playsinline, control, width="400", height="300")
                             div#peerScreen2(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
-                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 2
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"})
                                 video#peerFace2(autoplay, playsinline, control, width="400", height="300")
                             div#peerScreen3(style={display:"none", position:"relative", overflow:"hidden", border:"3px solid white", "text-align":"center"})
-                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"}) Peer Screen Box 3
+                                legend(style={"font-weight":"bold", "margin-top":"10px", color:"white", "font-size":"20px"})
                                 video#peerFace3(autoplay, playsinline, control, width="400", height="300")
                         div#chat-container(style={flex:"1", display:"flex", "flex-direction":"column", "background-color":"#B2D3C2", border:"3px solid white"})
                             div#chatView(style={height:"95%", "overflow-y":"scroll", display:"flex", "flex-direction":"column-reverse"})
@@ -78,8 +78,9 @@ html(lang="en")
                                     ul
                             div(style={height:"5%", "border-top":"3px solid black", "text-align":"center"})
                                 form#chatForm(onsubmit="return false", style={"justify-content": "center", display:"flex"})
-                                    input(type="text" id="msg" style={width:"80%", height:"35px", "border-radius":"8px"})
-                                    input(type="submit" id="send" value="전송" style={width:"16%", height:"40px", "border-radius":"50px", background:"black", color:"white", "font-weight":"bold"})
+                                    input(type="text" id="msg" style={width:"70%", height:"35px", "border-radius":"8px"})
+                                    button#code(style={width:"15%", height:"40px", "border-radius":"50px", background:"white", "font-weight":"bold", "font-size":"20px"}) 💻
+                                    input(type="submit" id="send" value="전송" style={width:"15%", height:"40px", "border-radius":"50px", background:"black", color:"white", "font-weight":"bold"})
         script(src="/socket.io/socket.io.js")
         script(src="https://webrtc.github.io/adapter/adapter-latest.js")
         script(src="/public/js/app.js")

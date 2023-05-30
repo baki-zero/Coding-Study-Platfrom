@@ -68,7 +68,7 @@ async function getMedia(deviceId) {
     };
     try {
         myStream = await navigator.mediaDevices.getUserMedia(
-            deviceId ? cameraConstraints : initialConstrains
+            deviceId ? cameraConstraints : initialConstrains 
         );
         myFace.srcObject = myStream;
         if (!deviceId) {                                        //최초 접속시 1번 실행
@@ -132,15 +132,7 @@ function handleSuccess(stream) {    //steam 연결에 성공했을 때 실행되
 }
 
 function handleError(error) {
-    errorMsg(`getDisplayMedia error: ${error.name}`, error);
-}
-
-function errorMsg(msg, error) {
-    const errorElement = document.querySelector('#errorMsg');
-    errorElement.innerHTML += `<p>${msg}</p>`;
-    if (typeof error !== 'undefined') {
-      console.error(error);
-    }
+    console.log(error);
 }
 
 startButton.addEventListener("click", () => {
@@ -149,15 +141,15 @@ startButton.addEventListener("click", () => {
     if (displaySurface !== 'default') {
         options.video = {displaySurface};
     }
-    navigator.mediaDevices.getDisplayMedia(options)
-        .then(handleSuccess, handleError);
+    navigator.mediaDevices.getDisplayMedia(options).then(handleSuccess, handleError);
 });
 
 if (navigator.mediaDevices && typeof navigator.mediaDevices.getDisplayMedia === 'function') {
-    startButton.disabled = false; }
-    else {
-        errorMsg('getDisplayMedia is not supported');
-    }
+    startButton.disabled = false;
+}
+else {
+    console.log('getDisplayMedia is not supported');
+}
 
 muteBtn.addEventListener("click", handleMuteClick);
 cameraBtn.addEventListener("click", handleCameraClick);
@@ -245,8 +237,19 @@ socket.on("welcome", async(user) => {
     socket.emit("offer", offer, roomName);
 });
 
-socket.on("bye", (left) => {
+socket.on("bye", (left, data) => {
     addMessage(`GoodBye ${left}`);
+    // 사용자 퇴장 시 해당 사용자의 박스 숨김 처리
+    if (data === peerFace1.srcObject) {
+        peerScreen1.style.display = "none";
+        peerFace1.srcObject = null; // 해당 사용자의 스트림을 삭제
+    } else if (data === peerFace2.srcObject) {
+        peerScreen2.style.display = "none";
+        peerFace2.srcObject = null; // 해당 사용자의 스트림을 삭제
+    } else if (data === peerFace3.srcObject) {
+        peerScreen3.style.display = "none";
+        peerFace3.srcObject = null; // 해당 사용자의 스트림을 삭제
+    }
 });
 
 socket.on("new_message", addMessage);
@@ -322,3 +325,13 @@ function handleTrack(data) {
         console.log("You can't Enter the Room");
     }
 }
+
+//code share page
+const codePage = document.getElementById("code");
+
+function handlecodePageClick() {
+    window.open('https://yorkie.dev/yorkie-js-sdk/examples/vanilla-codemirror6/', '_blank');
+}
+
+// 버튼 클릭 이벤트에 handleClick 함수를 연결
+codePage.addEventListener('click', handlecodePageClick);
