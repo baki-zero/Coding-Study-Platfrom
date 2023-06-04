@@ -25,6 +25,7 @@ let cameraOff = false;  //최초 접속시 카메라 켜기
 let roomName;           //방 이름 변수
 let myPeerConnection;   //누군가 getMedia 함수를 호출했을 때 같은 stream을 공유하기 위한 변수    
 
+
 //adapter 설정
 if (adapter.browserDetails.browser === 'chrome' && adapter.browserDetails.version >= 107) {
     // See https://developer.chrome.com/docs/web-platform/screen-sharing-controls/
@@ -221,6 +222,7 @@ chatForm.addEventListener("submit", handleMessageSubmit);
 function addMessage(message) {
     const ul = chatView.querySelector("ul");
     const li = document.createElement("li");
+    li.style.fontSize = "25px";
     li.innerText = message;
     ul.appendChild(li);
 }
@@ -228,6 +230,7 @@ function addMessage(message) {
 //Socket Code
 socket.on("welcome", async(user) => {
     addMessage(`Welcome ${user}`);
+    console.log(RoomPeoples)
     myDataChannel = myPeerConnection.createDataChannel("chat");
     myDataChannel.addEventListener("message", console.log);
     console.log("made data channel");
@@ -237,7 +240,7 @@ socket.on("welcome", async(user) => {
     socket.emit("offer", offer, roomName);
 });
 
-socket.on("bye", (left, data) => {
+socket.on("bye", (left) => {
     addMessage(`GoodBye ${left}`);
     // 사용자 퇴장 시 해당 사용자의 박스 숨김 처리
     if (data === peerFace1.srcObject) {
@@ -306,17 +309,18 @@ function handleIce(data) {
 }
 
 function handleTrack(data) {
+    if(!(data['track']['kind']==="audio")) return;
     if(!peerFace1.srcObject) {
         peerScreen1.style.display = "block";
         peerFace1.srcObject = data.streams[0];
         console.log(myStream, "my stream");
         console.log(data.streams[0], "peer stream");
-    } else if(!peerFace2.srcObject) {
+    } else if(!peerFace2.srcObject&&peerScreen2.style.display=='none') {
         peerScreen2.style.display = "block";
         peerFace2.srcObject = data.streams[0];
         console.log(myStream, "my stream");
         console.log(data.streams[0], "peer stream");
-    } else if(!peerFace3.srcObject) {
+    } else if(!peerFace3.srcObject&&peerScreen3.style.display=='none') {
         peerScreen3.style.display = "block";
         peerFace3.srcObject = data.streams[0];
         console.log(myStream, "my stream");

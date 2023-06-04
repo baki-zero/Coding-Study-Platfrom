@@ -78,9 +78,9 @@ html(lang="en")
                                     ul
                             div(style={height:"5%", "border-top":"3px solid black", "text-align":"center"})
                                 form#chatForm(onsubmit="return false", style={"justify-content": "center", display:"flex"})
-                                    input(type="text" id="msg" style={width:"70%", height:"35px", "border-radius":"8px"})
+                                    input(type="text" id="msg" style={width:"70%", height:"35px", "border-radius":"8px", "font-size":"15px"})
                                     button#code(style={width:"15%", height:"40px", "border-radius":"50px", background:"white", "font-weight":"bold", "font-size":"20px"}) 💻
-                                    input(type="submit" id="send" value="전송" style={width:"15%", height:"40px", "border-radius":"50px", background:"black", color:"white", "font-weight":"bold"})
+                                    button#send(style={width:"15%", height:"40px", "border-radius":"50px", background:"black", color:"white", "font-weight":"bold"}) 전송
         script(src="/socket.io/socket.io.js")
         script(src="https://webrtc.github.io/adapter/adapter-latest.js")
         script(src="/public/js/app.js")
