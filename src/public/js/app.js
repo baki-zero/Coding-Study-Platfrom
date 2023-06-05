@@ -230,7 +230,6 @@ function addMessage(message) {
 //Socket Code
 socket.on("welcome", async(user) => {
     addMessage(`Welcome ${user}`);
-    console.log(RoomPeoples)
     myDataChannel = myPeerConnection.createDataChannel("chat");
     myDataChannel.addEventListener("message", console.log);
     console.log("made data channel");
@@ -243,16 +242,6 @@ socket.on("welcome", async(user) => {
 socket.on("bye", (left) => {
     addMessage(`GoodBye ${left}`);
     // 사용자 퇴장 시 해당 사용자의 박스 숨김 처리
-    if (data === peerFace1.srcObject) {
-        peerScreen1.style.display = "none";
-        peerFace1.srcObject = null; // 해당 사용자의 스트림을 삭제
-    } else if (data === peerFace2.srcObject) {
-        peerScreen2.style.display = "none";
-        peerFace2.srcObject = null; // 해당 사용자의 스트림을 삭제
-    } else if (data === peerFace3.srcObject) {
-        peerScreen3.style.display = "none";
-        peerFace3.srcObject = null; // 해당 사용자의 스트림을 삭제
-    }
 });
 
 socket.on("new_message", addMessage);
