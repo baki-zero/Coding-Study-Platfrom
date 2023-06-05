@@ -298,25 +298,10 @@ function handleIce(data) {
 }
 
 function handleTrack(data) {
-    if(!(data['track']['kind']==="audio")) return;
-    if(!peerFace1.srcObject) {
-        peerScreen1.style.display = "block";
-        peerFace1.srcObject = data.streams[0];
-        console.log(myStream, "my stream");
-        console.log(data.streams[0], "peer stream");
-    } else if(!peerFace2.srcObject&&peerScreen2.style.display=='none') {
-        peerScreen2.style.display = "block";
-        peerFace2.srcObject = data.streams[0];
-        console.log(myStream, "my stream");
-        console.log(data.streams[0], "peer stream");
-    } else if(!peerFace3.srcObject&&peerScreen3.style.display=='none') {
-        peerScreen3.style.display = "block";
-        peerFace3.srcObject = data.streams[0];
-        console.log(myStream, "my stream");
-        console.log(data.streams[0], "peer stream");
-    } else {
-        console.log("You can't Enter the Room");
-    }
+    peerScreen1.style.display = "block";
+    peerFace1.srcObject = data.streams[0];
+    console.log(myStream, "my stream");
+    console.log(data.streams[0], "peer stream");
 }
 
 //code share page
