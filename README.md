@@ -1,3 +1,3 @@
-# My zoom
+# Capstone Design
 
-Zoom Clone using NodeJS, webRTC and Websockets.
+Using NodeJS, webRTC and Websockets.
